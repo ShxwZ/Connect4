@@ -1,6 +1,6 @@
 # Connect4
 ### This is a simple game of connect 4 🙂
-##Features ⚙
+## Features ⚙
 - Two players (Red n Green)
 - Rows checks
 - Columns checks
