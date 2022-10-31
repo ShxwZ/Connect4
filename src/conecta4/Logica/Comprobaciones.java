@@ -20,6 +20,7 @@ public class Comprobaciones {
     public static int comprobarColumnas(int[][] matriz, int jugador) {
         for (int i = 0; i < matriz[0].length; i++) { // vamos por columnas
             int suma = 0;
+            cleanMatriz();
             for (int j = 0; j < matriz.length; j++) {
                 if (matriz[j][i] == jugador) {
                     suma++;
@@ -41,6 +42,7 @@ public class Comprobaciones {
     public static int comprobarFilas(int[][] matriz, int jugador) {
         for (int i = 0; i < matriz.length; i++) { // vamos por las filas
             int suma = 0;
+            cleanMatriz();
             for (int j = 0; j < matriz[i].length; j++) {
                 if (matriz[i][j] == jugador) {
                     suma++;
