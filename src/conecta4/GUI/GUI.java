@@ -1,0 +1,455 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package conecta4.GUI;
+
+import conecta4.Logica.Comprobaciones;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
+/**
+ *
+ * @author Shaw
+ */
+public class GUI extends javax.swing.JFrame {
+    final int JUGADOR1 = 1;
+    final int JUGADOR2 = 2;
+    final int FILAS = 5;
+    final int COLUMNAS = 7;
+    final ImageIcon IMAGEN_JUGADOR1 = new ImageIcon(getClass().getResource("Recursos/verde.png"));
+    final ImageIcon IMAGEN_JUGADOR2 = new ImageIcon(getClass().getResource("Recursos/rojo.png"));
+    int turno = JUGADOR1; // INICIA EN JUGADOR 1
+    int matriz [][];
+    JLabel [][] labels;
+    Map<JButton, Integer> botones ;
+    Map<JLabel, String> casillas;
+    /**
+     * Creates new form GUI
+     */
+    public GUI() {
+        initComponents();
+        inicializarVariables();
+    }
+    
+    private void inicializarVariables(){
+        matriz = new int [FILAS][COLUMNAS];
+        
+        for (int[] fila : matriz) {
+            Arrays.fill(fila, 0);
+        }
+        
+        labels = new JLabel[][]{{jLabelPos00,jLabelPos01,jLabelPos02,jLabelPos03,jLabelPos04,jLabelPos05,jLabelPos06},
+                                {jLabelPos10,jLabelPos11,jLabelPos12,jLabelPos13,jLabelPos14,jLabelPos15,jLabelPos16},
+                                {jLabelPos20,jLabelPos21,jLabelPos22,jLabelPos23,jLabelPos24,jLabelPos25,jLabelPos26},
+                                {jLabelPos30,jLabelPos31,jLabelPos32,jLabelPos33,jLabelPos34,jLabelPos35,jLabelPos36},
+                                {jLabelPos40,jLabelPos41,jLabelPos42,jLabelPos43,jLabelPos44,jLabelPos45,jLabelPos46}};
+        casillas = new HashMap<>();
+        botones = new HashMap<>();
+        for (int i = 0; i < FILAS; i++) {
+            for (int j = 0; j < COLUMNAS; j++) {
+                casillas.put(labels[i][j], i+j+"");
+            }
+        }
+        
+        JButton [] tempbotones = {jButtonRanura0,jButtonRanura1,jButtonRanura2,jButtonRanura3,jButtonRanura4,jButtonRanura5,jButtonRanura6};
+        
+        for (int i = 0; i < tempbotones.length; i++) {
+            botones.put(tempbotones[i], i);
+        }
+        
+        for (JButton b : tempbotones) {
+            b.addActionListener(e -> botonPresionado(e));
+        }
+        jLabelTurno.setText("Turno jugador: " + turno);
+        
+    }
+    
+    private void botonPresionado (ActionEvent e){
+        int columnaBoton=0;
+        JButton boton = null;
+        
+        for (Map.Entry<JButton, Integer> b : botones.entrySet()) {
+            if (e.getSource() == b.getKey()) {
+                boton = b.getKey();
+                columnaBoton = (int) b.getValue();
+            }
+        }
+        
+        boolean valid = false;
+        int i = FILAS -1;
+        do {     
+            if (matriz[i][columnaBoton] > 0) {
+                i--;
+            } else{
+                valid = true;
+            }
+            if (valid) {
+                labels[i][columnaBoton].setIcon(turno == 1 ? IMAGEN_JUGADOR1 : IMAGEN_JUGADOR2);
+                matriz[i][columnaBoton] = turno;
+                comprobarGanador();
+                
+            }
+            if (comprobarUltimaFila(i)) {
+                boton.setEnabled(false);
+            }
+        } while (!valid);
+
+
+    
+    }
+    
+    private boolean comprobarUltimaFila(int i){
+        return i==0;
+    }
+    
+    private void cambiarTurno(){
+        turno = turno == JUGADOR1 ? JUGADOR2 : JUGADOR1;
+    }
+    private void comprobarGanador(){
+        boolean resultado = Comprobaciones.comprobarTodo(matriz, turno);
+        if (resultado) {
+            jLabelTurno.setText("Gana jugador " + turno);
+            jLabelTurno.setForeground(turno == JUGADOR1 ? Color.GREEN : Color.RED);
+            for (Map.Entry<JButton, Integer> b : botones.entrySet()) {
+                b.getKey().setEnabled(false);
+            }
+            int [][] matrizGanador = Comprobaciones.getMatriz();
+            
+            for (int i = 0; i < matrizGanador.length; i++) {
+                for (int j = 0; j < matrizGanador[i].length; j++) {
+                    if (matrizGanador[i][j] == 0) {
+                        labels[i][j].setEnabled(false);
+                    }
+                }
+            }
+            
+        } else{
+            cambiarTurno();
+            jLabelTurno.setText("Turno jugador: " + turno);
+        }
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanelJugadas = new javax.swing.JPanel();
+        jLabelPos00 = new javax.swing.JLabel();
+        jLabelPos01 = new javax.swing.JLabel();
+        jLabelPos02 = new javax.swing.JLabel();
+        jLabelPos03 = new javax.swing.JLabel();
+        jLabelPos04 = new javax.swing.JLabel();
+        jLabelPos05 = new javax.swing.JLabel();
+        jLabelPos06 = new javax.swing.JLabel();
+        jLabelPos10 = new javax.swing.JLabel();
+        jLabelPos11 = new javax.swing.JLabel();
+        jLabelPos12 = new javax.swing.JLabel();
+        jLabelPos13 = new javax.swing.JLabel();
+        jLabelPos14 = new javax.swing.JLabel();
+        jLabelPos15 = new javax.swing.JLabel();
+        jLabelPos16 = new javax.swing.JLabel();
+        jLabelPos20 = new javax.swing.JLabel();
+        jLabelPos21 = new javax.swing.JLabel();
+        jLabelPos22 = new javax.swing.JLabel();
+        jLabelPos23 = new javax.swing.JLabel();
+        jLabelPos24 = new javax.swing.JLabel();
+        jLabelPos25 = new javax.swing.JLabel();
+        jLabelPos26 = new javax.swing.JLabel();
+        jLabelPos30 = new javax.swing.JLabel();
+        jLabelPos31 = new javax.swing.JLabel();
+        jLabelPos32 = new javax.swing.JLabel();
+        jLabelPos33 = new javax.swing.JLabel();
+        jLabelPos34 = new javax.swing.JLabel();
+        jLabelPos35 = new javax.swing.JLabel();
+        jLabelPos36 = new javax.swing.JLabel();
+        jLabelPos40 = new javax.swing.JLabel();
+        jLabelPos41 = new javax.swing.JLabel();
+        jLabelPos42 = new javax.swing.JLabel();
+        jLabelPos43 = new javax.swing.JLabel();
+        jLabelPos44 = new javax.swing.JLabel();
+        jLabelPos45 = new javax.swing.JLabel();
+        jLabelPos46 = new javax.swing.JLabel();
+        jPanelInfoGame = new javax.swing.JPanel();
+        jLabelTurno = new javax.swing.JLabel();
+        jPanelRanuras = new javax.swing.JPanel();
+        jButtonRanura0 = new javax.swing.JButton();
+        jButtonRanura1 = new javax.swing.JButton();
+        jButtonRanura2 = new javax.swing.JButton();
+        jButtonRanura3 = new javax.swing.JButton();
+        jButtonRanura4 = new javax.swing.JButton();
+        jButtonRanura5 = new javax.swing.JButton();
+        jButtonRanura6 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(900, 480));
+        setMinimumSize(new java.awt.Dimension(900, 480));
+        setResizable(false);
+
+        jPanelJugadas.setLayout(new java.awt.GridLayout(5, 7, 1, 1));
+
+        jLabelPos00.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos00);
+
+        jLabelPos01.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos01);
+
+        jLabelPos02.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos02);
+
+        jLabelPos03.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos03);
+
+        jLabelPos04.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos04);
+
+        jLabelPos05.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos05);
+
+        jLabelPos06.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos06);
+
+        jLabelPos10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos10);
+
+        jLabelPos11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos11);
+
+        jLabelPos12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos12);
+
+        jLabelPos13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos13);
+
+        jLabelPos14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos14);
+
+        jLabelPos15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos15);
+
+        jLabelPos16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos16);
+
+        jLabelPos20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos20);
+
+        jLabelPos21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos21);
+
+        jLabelPos22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos22);
+
+        jLabelPos23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos23);
+
+        jLabelPos24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos24);
+
+        jLabelPos25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos25);
+
+        jLabelPos26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos26);
+
+        jLabelPos30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos30);
+
+        jLabelPos31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos31);
+
+        jLabelPos32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos32);
+
+        jLabelPos33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos33);
+
+        jLabelPos34.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos34);
+
+        jLabelPos35.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos35);
+
+        jLabelPos36.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos36);
+
+        jLabelPos40.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos40);
+
+        jLabelPos41.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos41);
+
+        jLabelPos42.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos42);
+
+        jLabelPos43.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos43);
+
+        jLabelPos44.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos44);
+
+        jLabelPos45.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos45);
+
+        jLabelPos46.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelJugadas.add(jLabelPos46);
+
+        jPanelInfoGame.setLayout(new java.awt.GridLayout(1, 15, 1, 0));
+
+        jLabelTurno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanelInfoGame.add(jLabelTurno);
+
+        jPanelRanuras.setLayout(new java.awt.GridLayout(1, 7, 1, 0));
+
+        jButtonRanura0.setFocusable(false);
+        jButtonRanura0.setMaximumSize(new java.awt.Dimension(72, 72));
+        jButtonRanura0.setMinimumSize(new java.awt.Dimension(72, 72));
+        jButtonRanura0.setPreferredSize(new java.awt.Dimension(72, 72));
+        jButtonRanura0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRanura0ActionPerformed(evt);
+            }
+        });
+        jPanelRanuras.add(jButtonRanura0);
+
+        jButtonRanura1.setFocusable(false);
+        jPanelRanuras.add(jButtonRanura1);
+
+        jButtonRanura2.setFocusable(false);
+        jPanelRanuras.add(jButtonRanura2);
+
+        jButtonRanura3.setFocusable(false);
+        jPanelRanuras.add(jButtonRanura3);
+
+        jButtonRanura4.setFocusable(false);
+        jPanelRanuras.add(jButtonRanura4);
+
+        jButtonRanura5.setFocusable(false);
+        jPanelRanuras.add(jButtonRanura5);
+
+        jButtonRanura6.setFocusable(false);
+        jPanelRanuras.add(jButtonRanura6);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelInfoGame, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelRanuras, javax.swing.GroupLayout.DEFAULT_SIZE, 747, Short.MAX_VALUE)
+                    .addComponent(jPanelJugadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanelRanuras, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanelInfoGame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelJugadas, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonRanura0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRanura0ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonRanura0ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new GUI().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonRanura0;
+    private javax.swing.JButton jButtonRanura1;
+    private javax.swing.JButton jButtonRanura2;
+    private javax.swing.JButton jButtonRanura3;
+    private javax.swing.JButton jButtonRanura4;
+    private javax.swing.JButton jButtonRanura5;
+    private javax.swing.JButton jButtonRanura6;
+    private javax.swing.JLabel jLabelPos00;
+    private javax.swing.JLabel jLabelPos01;
+    private javax.swing.JLabel jLabelPos02;
+    private javax.swing.JLabel jLabelPos03;
+    private javax.swing.JLabel jLabelPos04;
+    private javax.swing.JLabel jLabelPos05;
+    private javax.swing.JLabel jLabelPos06;
+    private javax.swing.JLabel jLabelPos10;
+    private javax.swing.JLabel jLabelPos11;
+    private javax.swing.JLabel jLabelPos12;
+    private javax.swing.JLabel jLabelPos13;
+    private javax.swing.JLabel jLabelPos14;
+    private javax.swing.JLabel jLabelPos15;
+    private javax.swing.JLabel jLabelPos16;
+    private javax.swing.JLabel jLabelPos20;
+    private javax.swing.JLabel jLabelPos21;
+    private javax.swing.JLabel jLabelPos22;
+    private javax.swing.JLabel jLabelPos23;
+    private javax.swing.JLabel jLabelPos24;
+    private javax.swing.JLabel jLabelPos25;
+    private javax.swing.JLabel jLabelPos26;
+    private javax.swing.JLabel jLabelPos30;
+    private javax.swing.JLabel jLabelPos31;
+    private javax.swing.JLabel jLabelPos32;
+    private javax.swing.JLabel jLabelPos33;
+    private javax.swing.JLabel jLabelPos34;
+    private javax.swing.JLabel jLabelPos35;
+    private javax.swing.JLabel jLabelPos36;
+    private javax.swing.JLabel jLabelPos40;
+    private javax.swing.JLabel jLabelPos41;
+    private javax.swing.JLabel jLabelPos42;
+    private javax.swing.JLabel jLabelPos43;
+    private javax.swing.JLabel jLabelPos44;
+    private javax.swing.JLabel jLabelPos45;
+    private javax.swing.JLabel jLabelPos46;
+    private javax.swing.JLabel jLabelTurno;
+    private javax.swing.JPanel jPanelInfoGame;
+    private javax.swing.JPanel jPanelJugadas;
+    private javax.swing.JPanel jPanelRanuras;
+    // End of variables declaration//GEN-END:variables
+}
