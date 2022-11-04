@@ -5,7 +5,7 @@
 - Rows checks
 - Columns checks
 - Diagonal checks
-## Clone with git
+## Clone with git 📎
 ```
 git clone https://github.com/ShxwZ/Connect4.git
 ```
